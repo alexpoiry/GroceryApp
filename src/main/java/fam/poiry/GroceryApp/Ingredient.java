@@ -1,21 +1,27 @@
 package fam.poiry.GroceryApp;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Ingredient {
 
 	private String ingredientName;
 	private Set<String> ingredientDescriptors;
-	private Set<Packaging> packaging;
-	private Set<Measurements> measurements;
+	private Measurement measurement;
+	private Fraction amount;
 	
 	public Ingredient(String name) {
 		ingredientName = name;
+		ingredientDescriptors = new HashSet<String>();
+		measurement = Measurement.SELF;
+		amount = new Fraction(1);
 	}
 	
 	public Ingredient(String name, Set<String> descriptors) {
 		ingredientName = name;
 		ingredientDescriptors = descriptors;
+		measurement = Measurement.SELF;
+		amount = new Fraction(1);
 	}
 	
 	public String getIngredientName() {
@@ -38,37 +44,56 @@ public class Ingredient {
 		return builder.toString().substring(0, builder.length() - 2);
 	}
 	
-	public enum Packaging {
-		HOT, COLD, FRESH, FROZEN, DRIED, 
-		DAIRY, BOX, BAG, CARTON, JAR,
-		WEIGHT, BOTTLE, CAN, INDIVIDUAL
+	public void setMeasurement(Measurement measurement) {
+		this.measurement = measurement;
 	}
 	
-	public enum Measurements {
-		oz ("ounces"),
-		floz ("fluid ounces"),
-		lbs ("pounds"),
-		tsp ("teaspoon"),
-		tbsp ("tablespoon"),
-		c ("cups"),
-		self ("self"),
-		pt ("pint"),
-		qt ("quart"),
-		gal ("gallon"),
-		doz ("dozen"),
-		pkg ("package"),
-		sm ("small"),
-		med ("medium"),
-		lg ("large");
+	public String getMeasurementName() {
+		return measurement.getMeasurementName();
+	}
+	
+	public String getMeasurementAbbrv() {
+		return measurement.getMeasurementAbbrv();
+	}
+	
+	public void setAmount(Fraction amount) {
+		this.amount = amount;
+	}
+	
+	public String getAmount() {
+		return amount.toString();
+	}
+	
+	public enum Measurement {
+		OZ ("ounces", "oz"),
+		FLOZ ("fluid ounces", "fl.oz"),
+		LBS ("pounds", "lbs"),
+		TSP ("teaspoon", "tsp"),
+		TBSP ("tablespoon", "tbsp"),
+		C ("cups", "c"),
+		SELF ("self", "x"),
+		PT ("pint", "pt"),
+		QT ("quart", "qt"),
+		GAL ("gallon", "gal"),
+		DOZ ("dozen", "doz"),
+		PKG ("package", "pkg"),
+		SM ("small", "sm"),
+		MED ("medium", "med"),
+		LG ("large", "lg");
 		
 		private String name;
-		
-		Measurements(String name) {
+		private String abbreviation;
+		Measurement(String name, String abbreviation) {
 			this.name = name;
+			this.abbreviation = abbreviation;
 		}
 		
 		String getMeasurementName() {
 			return name;
+		}
+		
+		String getMeasurementAbbrv() {
+			return abbreviation;
 		}
 	}
 }

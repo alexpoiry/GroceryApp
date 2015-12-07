@@ -14,6 +14,33 @@ public class App
     public static void main( String[] args )
     {
     	//setNumberOfDaysForWhichToGenerateMeals(7);
+    	GroceryList list = new GroceryList();
+    	list.addGroceryListItem(new Ingredient("Chicken"));
+    	list.addGroceryListItem(new Ingredient("Beef"));
+    	list.addGroceryListItem(new Ingredient("Tomato"));
+    	list.addGroceryListItem(new Ingredient("Lettuce"));
+    	list.addGroceryListItem(new Ingredient("Egg"));
+    	list.addGroceryListItem(new Ingredient("Bacon"));
+    	list.addGroceryListItem(new Ingredient("Tortilla"));
+    	list.addGroceryListItem(new Ingredient("Bean"));
+    	list.addGroceryListItem(new Ingredient("Bun"));
+    	list.addGroceryListItem(new Ingredient("Cheese"));
+    	list.addGroceryListItem(new Ingredient("Gnochi"));
+    	list.addGroceryListItem(new Ingredient("Spaghetti"));
+    	list.addGroceryListItem(new Ingredient("Marinara Sauce"));
+    	list.addGroceryListItem(new Ingredient("French Fries"));
+    	list.addGroceryListItem(new Ingredient("Fish"));
+    	list.addGroceryListItem(new Ingredient("Biscuits"));
+    	list.addGroceryListItem(new Ingredient("Corn Bread Mix"));
+    	list.addGroceryListItem(new Ingredient("Flour"));
+    	list.addGroceryListItem(new Ingredient("Sugar"));
+    	list.addGroceryListItem(new Ingredient("Butter"));
+    	list.addGroceryListItem(new Ingredient("Milk"));
+    	list.addGroceryListItem(new Ingredient("Salt"));
+    	list.addGroceryListItem(new Ingredient("Pepper"));
+    	list.addGroceryListItem(new Ingredient("Vanilla"));
+    	list.addGroceryListItem(new Ingredient("Dressing"));
+    	
     	
     	List<Meal> mealList = new ArrayList<Meal>();
     	mealList.add(new Meal("Pizza", 1, false));
@@ -35,10 +62,41 @@ public class App
     	//printMealList(createRandomMealList(mealList, false));
     	//printMealList(createEquallyWeightedMealList(mealList, false));
     	MealListParameters params = new MealListParameters();
-    	params.addMealDifficultyParameter(1, 4);
-    	params.addMealDifficultyParameter(2, 2);
-    	params.addMealDifficultyParameter(3, 1);
-    	printMealList(createArbitraryMealList(mealList, false, params));
+    	params.addMealDifficultyParameter(1, 4, 0);
+    	params.addMealDifficultyParameter(2, 2, 0);
+    	params.addMealDifficultyParameter(3, 1, 0);
+    	//printMealList(createArbitraryMealList(mealList, false, params));
+    	
+    	Meal testMeal = new Meal("Breakfast", 3, false);
+    	
+    	Ingredient eggs = new Ingredient("Eggs");
+    	eggs.setMeasurement(Ingredient.Measurement.SELF);
+    	eggs.setAmount(new Fraction(5));
+    	
+    	Ingredient bacon = new Ingredient("Bacon");
+    	bacon.setMeasurement(Ingredient.Measurement.OZ);
+    	bacon.setAmount(new Fraction(8));
+    	
+    	Ingredient biscuits = new Ingredient("Biscuits");
+    	biscuits.setMeasurement(Ingredient.Measurement.LBS);
+    	biscuits.setAmount(new Fraction(1));
+    	
+    	testMeal.addIngredient(eggs);
+    	testMeal.addIngredient(bacon);
+    	testMeal.addIngredient(biscuits);
+    	
+    	Set<Ingredient> testSet = new HashSet<Ingredient>();
+    	testSet.add(eggs);
+    	testSet.add(biscuits);
+    	testSet.add(bacon);
+    	
+    	JSONReaderWriter.printJSONObject(testSet);
+    	
+    	for (Ingredient returnVal : testMeal.getIngredient()) {
+    		System.out.println(returnVal.getIngredientName());
+    	}
+    	
+    	JSONReaderWriter.printJSONObject(testMeal);
     }
     
     public static void printMealList(List<Meal> mealList) {
@@ -72,16 +130,13 @@ public class App
     	return randomMealList;
     }
     
-    public static List<Meal> createEquallyWeightedMealList(List<Meal> fullMealList, boolean allowRepeats) {
+    public static List<Meal> createEquallyWeightedMealList(List<Meal> fullMealList, Set<Integer> difficultySet, boolean allowRepeats) {
     	List<Meal> weightedMealList = new ArrayList<Meal>();
     	Random random = new Random();
     	
     	Set<Integer> intSet = new HashSet<Integer>();
 		
-		Set<Integer> testSet = new HashSet<Integer>();
-		testSet.add(1);
-		testSet.add(2);
-		testSet.add(3);
+		Set<Integer> testSet = difficultySet;
 		
     	if (allowRepeats) {	
     		for (int i = 0; i < numOfDays; i++) {
@@ -123,8 +178,8 @@ public class App
     public static List<Meal> createArbitraryMealList(List<Meal> fullMealList, boolean allowRepeats, MealListParameters params) {
     	List<Meal> arbitraryMealList = new ArrayList<Meal>();
     	
-    	for (Map.Entry<Integer, Integer> entry : params.getMealDifficultyMap().entrySet()) {
-    		for (Meal meal : createArbitraryMealListOfEaseX(fullMealList, allowRepeats, entry.getKey(), entry.getValue())) {
+    	for (Integer difficulty : params.getDifficultyValues()) {
+    		for (Meal meal : createArbitraryMealListOfEaseX(fullMealList, allowRepeats, difficulty, params.getNumberOfMealsByDifficulty(difficulty))) {
         		arbitraryMealList.add(meal);
         	}
     	}

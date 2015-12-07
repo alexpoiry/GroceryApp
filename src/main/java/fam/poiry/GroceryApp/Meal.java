@@ -6,7 +6,7 @@ import java.util.Set;
 public class Meal {
 
 	private String name;
-	private Set<String> ingrediants = new HashSet<String>();
+	private Set<Ingredient> ingredients = new HashSet<Ingredient>();
 	private int ease;
 	private boolean leftovers;
 	
@@ -14,10 +14,38 @@ public class Meal {
 		this.name = name;
 		this.ease = ease;
 		this.leftovers = hasLeftovers;
+		ingredients = new HashSet<Ingredient>();
 	}
 	
-	public void addIngrediant(String ingrediant) {
-		ingrediants.add(ingrediant);
+	public Meal(String name, int ease, boolean hasLeftovers, Set<Ingredient> ingredients) {
+		this.name = name;
+		this.ease = ease;
+		this.leftovers = hasLeftovers;
+		this.ingredients = ingredients;
+	}
+	
+	public void addIngredient(Ingredient ingrediant) {
+		boolean valuesMatch = false;
+		if (!ingredients.isEmpty()) {
+			for (Ingredient testValue : ingredients) {
+				if (testValue.getIngredientName().equalsIgnoreCase(ingrediant.getIngredientName()) &&
+						testValue.getMeasurementAbbrv().equals(ingrediant.getMeasurementAbbrv())) {
+					valuesMatch = true;
+				}
+			}
+			
+			if (!valuesMatch) {
+				ingredients.add(ingrediant);
+			} else {
+				
+			}
+		} else {
+			ingredients.add(ingrediant);
+		}
+	}
+	
+	public Set<Ingredient> getIngredient() {
+		return ingredients;
 	}
 	
 	public String getMealName() {

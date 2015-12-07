@@ -1,25 +1,49 @@
 package fam.poiry.GroceryApp;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MealListParameters {
 
-	private Map<Integer, Integer> mealDifficultyMap;
+	private Map<Integer, MealMetadata> mealParameterMap = new HashMap<Integer, MealMetadata>();
 	
-	public MealListParameters() {
-		mealDifficultyMap = new HashMap<Integer, Integer>();
+	public void addMealDifficultyParameter(int difficulty, int totalNumberOfMeals, int mealsWithLeftovers) {
+		mealParameterMap.put(difficulty, new MealMetadata(totalNumberOfMeals, mealsWithLeftovers));
 	}
 	
-	public MealListParameters(HashMap<Integer, Integer> mealDifficultyMap) {
-		this.mealDifficultyMap = mealDifficultyMap;
+	public int getNumberOfMealsByDifficulty(Integer difficulty) {
+		return mealParameterMap.get(difficulty).getTotalNumberOfMeals();
 	}
 	
-	public void addMealDifficultyParameter(int difficulty, int numberOfMeals) {
-		mealDifficultyMap.put(difficulty, numberOfMeals);
+	public int getNumberOfMealsWithLeftoversByDifficulty(Integer difficulty) {
+		return mealParameterMap.get(difficulty).getMealsWithLeftovers();
 	}
 	
-	public Map<Integer, Integer> getMealDifficultyMap() {
-		return mealDifficultyMap;
+	public List<Integer> getDifficultyValues() {
+		List<Integer> difficultyList = new ArrayList<Integer>();
+		for (Map.Entry<Integer, MealMetadata> entry : mealParameterMap.entrySet()) {
+			difficultyList.add(entry.getKey());
+		}
+		return difficultyList;
+	}
+	
+	private class MealMetadata {
+		private int totalNumberOfMeals;
+		private int mealsWithLeftovers;
+		
+		MealMetadata(int totalNumberOfMeals, int mealsWithLeftovers) {
+			this.totalNumberOfMeals = totalNumberOfMeals;
+			this.mealsWithLeftovers = mealsWithLeftovers;
+		}
+		
+		public int getTotalNumberOfMeals() {
+			return totalNumberOfMeals;
+		}
+		
+		public int getMealsWithLeftovers() {
+			return mealsWithLeftovers;
+		}
 	}
 }
