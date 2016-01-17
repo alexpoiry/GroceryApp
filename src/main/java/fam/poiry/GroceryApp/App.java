@@ -16,7 +16,6 @@ public class App
     	//setNumberOfDaysForWhichToGenerateMeals(7);
     	GroceryList list = new GroceryList();
     	list.addGroceryListItem(new Ingredient("Chicken"));
-    	list.addGroceryListItem(new Ingredient("Navy Beans")); //Ryan edit Test
     	list.addGroceryListItem(new Ingredient("Beef"));
     	list.addGroceryListItem(new Ingredient("Tomato"));
     	list.addGroceryListItem(new Ingredient("Lettuce"));
