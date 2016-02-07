@@ -3,7 +3,7 @@ package fam.poiry.GroceryApp;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Meal {
+public class Meal implements Meals {
 
 	private String name;
 	private Set<Ingredient> ingredients = new HashSet<Ingredient>();

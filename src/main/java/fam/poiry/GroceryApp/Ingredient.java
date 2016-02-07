@@ -3,7 +3,7 @@ package fam.poiry.GroceryApp;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Ingredient {
+public class Ingredient implements Ingredients {
 
 	private String ingredientName;
 	private Set<String> ingredientDescriptors;
